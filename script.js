@@ -6,7 +6,7 @@
 
 const boardEl = document.querySelector("#board");
 const difficultyEl = document.querySelector("#difficulty");
-const levelSizeEl = document.querySelector("#levelSize");
+const bestScoreEl = document.querySelector("#bestScore");
 const skinEl = document.querySelector("#skin");
 const newGameEl = document.querySelector("#newGame");
 const flagModeEl = document.querySelector("#flagMode");
@@ -22,6 +22,7 @@ const SKINS = new Set(["classic", "field", "night"]);
 const STORAGE_KEYS = {
   skin: "minesweeper.skin",
   hideControls: "minesweeper.hideControls",
+  bestPrefix: "minesweeper.best.",
 };
 
 let state;
@@ -50,6 +51,7 @@ function createState(levelKey) {
     selectedIndex: 0,
     startedAt: 0,
     elapsed: 0,
+    elapsedMs: 0,
     timerId: 0,
   };
 }
@@ -64,7 +66,7 @@ function startGame(levelKey = difficultyEl.value) {
   renderBoard();
   fitBoard();
   selectCell(0);
-  updateLevelSize();
+  updateBestScore();
   updateStatus("Ready");
   setFace("☺");
   announcerEl.textContent = `${state.level.label}, ${state.level.rows} by ${state.level.cols}, ${state.level.mines} mines`;
@@ -258,6 +260,7 @@ function checkWin() {
   document.body.classList.remove("playing", "lost");
   document.body.classList.add("won");
   setFace("😎");
+  const newBest = saveBestIfFaster(state.levelKey, state.elapsedMs);
 
   for (const cell of state.cells) {
     if (cell.mine && !cell.flagged) {
@@ -267,8 +270,11 @@ function checkWin() {
   }
 
   updateCells();
-  updateStatus("Victory");
-  announcerEl.textContent = "Victory.";
+  updateBestScore();
+  updateStatus(newBest ? "New Best" : "Victory");
+  announcerEl.textContent = newBest
+    ? `New best time: ${formatSeconds(state.elapsedMs)}.`
+    : `Victory in ${formatSeconds(state.elapsedMs)}.`;
 }
 
 function updateCells(explodedIndex = -1) {
@@ -310,8 +316,30 @@ function updateStatus(message) {
   messageEl.textContent = message;
 }
 
-function updateLevelSize() {
-  levelSizeEl.textContent = `Board: ${state.level.rows} x ${state.level.cols}`;
+function updateBestScore() {
+  const bestMs = readBestMs(state.levelKey);
+  bestScoreEl.textContent = bestMs === null ? "Best: --" : `Best: ${formatSeconds(bestMs)}`;
+  bestScoreEl.title = `${state.level.label} best time`;
+}
+
+function readBestMs(levelKey) {
+  const value = readPreference(`${STORAGE_KEYS.bestPrefix}${levelKey}`);
+  if (value === null) return null;
+  const bestMs = Number(value);
+  return Number.isFinite(bestMs) && bestMs > 0 ? bestMs : null;
+}
+
+function saveBestIfFaster(levelKey, elapsedMs) {
+  if (!Number.isFinite(elapsedMs) || elapsedMs <= 0) return false;
+  const currentBest = readBestMs(levelKey);
+  if (currentBest !== null && elapsedMs >= currentBest) return false;
+
+  writePreference(`${STORAGE_KEYS.bestPrefix}${levelKey}`, String(elapsedMs));
+  return true;
+}
+
+function formatSeconds(milliseconds) {
+  return `${(milliseconds / 1000).toFixed(3)}s`;
 }
 
 function applySkin(skin, persist = true) {
@@ -412,17 +440,24 @@ function setFace(face) {
 
 function startTimer() {
   if (state.timerId) return;
-  state.startedAt = Date.now() - state.elapsed * 1000;
+  state.startedAt = nowMs() - state.elapsedMs;
   state.timerId = window.setInterval(() => {
-    state.elapsed = Math.floor((Date.now() - state.startedAt) / 1000);
+    state.elapsedMs = nowMs() - state.startedAt;
+    state.elapsed = Math.floor(state.elapsedMs / 1000);
     updateStatus("Playing");
   }, 250);
 }
 
 function stopTimer() {
   if (!state?.timerId) return;
+  state.elapsedMs = nowMs() - state.startedAt;
+  state.elapsed = Math.floor(state.elapsedMs / 1000);
   window.clearInterval(state.timerId);
   state.timerId = 0;
+}
+
+function nowMs() {
+  return window.performance?.now?.() ?? Date.now();
 }
 
 function clearExplosionTimers() {

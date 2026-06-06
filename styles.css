@@ -155,12 +155,13 @@ select {
   white-space: nowrap;
 }
 
-.level-size {
-  min-width: 74px;
+.best-score {
+  min-width: 86px;
   padding: 3px 5px;
   border: 1px solid var(--control-border);
   background: rgba(255, 255, 255, 0.42);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .menubar select,
@@ -541,7 +542,7 @@ body.lost .board-frame {
   }
 
   .menu-control,
-  .level-size,
+  .best-score,
   .menubar button {
     width: 100%;
   }
