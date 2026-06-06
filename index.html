@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body data-skin="classic">
+    <main class="classic-window" aria-label="Classic Minesweeper">
+      <header class="titlebar">
+        <span class="app-icon" aria-hidden="true"></span>
+        <span>Minesweeper</span>
+      </header>
+
+      <div class="menubar">
+        <label class="menu-control">
+          <span>Difficulty</span>
+          <select id="difficulty">
+            <option value="beginner">Beginner - 9 x 9</option>
+            <option value="intermediate">Intermediate - 16 x 16</option>
+            <option value="expert">Expert - 16 x 30</option>
+          </select>
+        </label>
+        <span id="levelSize" class="level-size">Board: 9 x 9</span>
+        <label class="menu-control">
+          <span>Skin</span>
+          <select id="skin">
+            <option value="classic">Classic Minefield</option>
+            <option value="field">Field Kit</option>
+            <option value="night">Night Ops</option>
+          </select>
+        </label>
+        <button id="flagMode" type="button" aria-pressed="false">Flag Mode</button>
+      </div>
+
+      <section class="game-panel">
+        <div class="status-strip">
+          <div id="minesLeft" class="counter" aria-label="Mines left">010</div>
+          <button id="newGame" class="face-button" type="button" title="New game" aria-label="New game">&#9786;</button>
+          <div id="timer" class="counter" aria-label="Timer">000</div>
+        </div>
+
+        <div class="board-frame">
+          <div id="board" class="board" role="grid" aria-label="Minesweeper board"></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="controlsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="controlsTitle">
+      <div class="modal-panel">
+        <button id="closeControls" class="modal-close" type="button" aria-label="Close controls">&times;</button>
+        <h2 id="controlsTitle">Controls</h2>
+        <dl class="key-list">
+          <div><dt>W A S D</dt><dd>Move selection</dd></div>
+          <div><dt>Enter</dt><dd>Reveal / clear around a revealed number</dd></div>
+          <div><dt>Shift</dt><dd>Place or remove a flag</dd></div>
+          <div><dt>R</dt><dd>Restart the current difficulty</dd></div>
+          <div><dt>Right click</dt><dd>Place or remove a flag with the mouse</dd></div>
+        </dl>
+        <button id="hideControls" class="dont-show" type="button">Don't show again</button>
+      </div>
+    </div>
+
+    <div id="message" class="sr-only" aria-live="polite">Ready</div>
+    <div id="announcer" class="sr-only" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

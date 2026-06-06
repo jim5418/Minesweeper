@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 190" role="img" aria-label="demining tool kit">
+  <defs>
+    <linearGradient id="box" x1="0" x2="1">
+      <stop offset="0" stop-color="#1f2b23"/>
+      <stop offset=".58" stop-color="#4e6042"/>
+      <stop offset="1" stop-color="#172017"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="140" cy="171" rx="116" ry="10" fill="#0b0d09" opacity=".36"/>
+  <rect x="36" y="62" width="208" height="94" rx="12" fill="url(#box)" stroke="#0c110d" stroke-width="5"/>
+  <rect x="85" y="39" width="110" height="35" rx="13" fill="none" stroke="#1a211b" stroke-width="12"/>
+  <path fill="#d7c46a" opacity=".65" d="M49 80h182v10H49z"/>
+  <g fill="#151a15" stroke="#a8a074" stroke-width="3">
+    <rect x="62" y="105" width="46" height="30" rx="5"/>
+    <rect x="117" y="105" width="46" height="30" rx="5"/>
+    <rect x="172" y="105" width="46" height="30" rx="5"/>
+  </g>
+  <path stroke="#bfc5bd" stroke-width="5" stroke-linecap="round" d="M212 49 251 20M224 59l39-29"/>
+  <circle cx="251" cy="20" r="8" fill="#1d2320" stroke="#bfc5bd" stroke-width="4"/>
+</svg>
