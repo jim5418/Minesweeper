@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="timer">
+  <defs>
+    <linearGradient id="case" x1="0" x2="1">
+      <stop offset="0" stop-color="#4b5563"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <radialGradient id="dial" cx="42%" cy="34%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".7" stop-color="#e5eaee"/>
+      <stop offset="1" stop-color="#b8c2cc"/>
+    </radialGradient>
+  </defs>
+  <path fill="url(#case)" d="M30 4h20v8H30zM36 11h8v8h-8zM61 13l6 6-8 8-6-6z"/>
+  <circle cx="40" cy="45" r="29" fill="url(#case)"/>
+  <circle cx="40" cy="45" r="22" fill="url(#dial)"/>
+  <g stroke="#8e9aa7" stroke-width="3" stroke-linecap="round">
+    <path d="M40 26v5M40 59v5M21 45h5M54 45h5"/>
+  </g>
+  <path fill="#d98606" d="M37 29h6v20h-6z"/>
+  <path fill="#d3342f" d="M40 42h18v6H40z"/>
+  <circle cx="40" cy="45" r="5" fill="#111827"/>
+  <path fill="#f3c43b" d="M24 17l5-5 5 5-5 5z"/>
+</svg>
